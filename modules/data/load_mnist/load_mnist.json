@@ -1,0 +1,20 @@
+{
+  "params": {
+    "train_decimal": "DOCKEX_REQUIRED",
+    "valid_decimal": "DOCKEX_REQUIRED",
+    "test_decimal": "DOCKEX_REQUIRED",
+    "num_samples": null,
+    "standardize": true,
+    "random_seed": 1337
+},
+  "input_pathnames": {},
+  "output_pathnames": {
+    "X_train_npy": "_X_train.npy",
+    "y_train_npy": "_y_train.npy",
+    "X_valid_npy": "_X_valid.npy",
+    "y_valid_npy": "_y_valid.npy",
+    "X_test_npy": "_X_test.npy",
+    "y_test_npy": "_y_test.npy",
+    "transform_joblib": "_transform.joblib"
+  }
+}
