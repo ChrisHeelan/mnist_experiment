@@ -1,0 +1,40 @@
+{
+  "params": {
+    "method": "DOCKEX_REQUIRED",
+    "kwargs": {
+      "penalty": "l2",
+      "dual": false,
+      "tol": 0.0001,
+      "C": 1.0,
+      "fit_intercept": true,
+      "intercept_scaling": 1,
+      "class_weight": null,
+      "random_state": null,
+      "solver": "lbfgs",
+      "max_iter": 100,
+      "multi_class": "auto",
+      "verbose": 0,
+      "warm_start": false,
+      "n_jobs": null,
+      "l1_ratio": null
+    },
+    "divide_C_by_train_samples": false,
+    "random_seed": 1337,
+    "save_model": false
+},
+  "input_pathnames": {
+    "X_train_npy": null,
+    "y_train_npy": null,
+    "X_valid_npy": null,
+    "y_valid_npy": null,
+    "X_test_npy": null,
+    "y_test_npy": null,
+    "model_joblib": null
+  },
+  "output_pathnames": {
+    "predict_train_npy": "_predict_train.npy",
+    "predict_valid_npy": "_predict_valid.npy",
+    "predict_test_npy": "_predict_test.npy",
+    "model_joblib": "_model.joblib"
+  }
+}
