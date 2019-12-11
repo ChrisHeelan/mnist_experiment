@@ -14,4 +14,4 @@ This repository is under active development. Check back for new modules and docu
 * Project Path: ```/path/to/mnist_experiment```
 * Experiment Path: ```experiments/mnist_experiment.py```
 
-Results will be written to the tmp_dockex_path.
+Results will be written to the tmp_dockex_path (defaults to ```/tmp/dockex/data```).
