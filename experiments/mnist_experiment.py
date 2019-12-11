@@ -18,8 +18,7 @@ if __name__ == "__main__":
 
     print("Running")
     manager = ExperimentManager(
-        initial_job_num=0,
-        experiment_name_prefix="mnist_experiment"
+        initial_job_num=0, experiment_name_prefix="mnist_experiment"
     )
 
     run_dict_list = []
@@ -35,9 +34,9 @@ if __name__ == "__main__":
             "valid_decimal": VALID_DECIMAL,
             "test_decimal": TEST_DECIMAL,
             "num_samples": NUM_SAMPLES,
-            "standardize": True
+            "standardize": True,
         },
-        save_outputs=True
+        save_outputs=True,
     )
     run_dict["mnist_train_valid_test"] = mnist_train_valid_test
     run_dict["mnist_train_valid_test_name"] = manager.job_list[-1]["name"]
@@ -50,7 +49,7 @@ if __name__ == "__main__":
                 "solver": "saga",
                 "tol": 0.1,
                 "random_state": RANDOM_SEED,
-                "verbose": 1
+                "verbose": 1,
             }
 
             run_dict["classifier_params"] = classifier_params
@@ -63,7 +62,7 @@ if __name__ == "__main__":
                 params={
                     "method": "fit_predict",
                     "kwargs": classifier_params,
-                    "divide_C_by_train_samples": True
+                    "divide_C_by_train_samples": True,
                 },
                 input_pathnames={
                     "X_train_npy": mnist_train_valid_test["X_train_npy"],
@@ -75,7 +74,7 @@ if __name__ == "__main__":
                 },
                 params_nested_update=True,
                 skip_output_pathnames=["model_joblib"],
-                save_outputs=True
+                save_outputs=True,
             )
             run_dict["classifier_predictions"] = classifier_predictions
             run_dict["classifier_predictions_name"] = manager.job_list[-1]["name"]
@@ -93,7 +92,7 @@ if __name__ == "__main__":
                     "y_test_npy": mnist_train_valid_test["y_test_npy"],
                     "predict_test_npy": classifier_predictions["predict_test_npy"],
                 },
-                save_outputs=True
+                save_outputs=True,
             )
             run_dict["analysis"] = analysis
             run_dict["analysis_name"] = manager.job_list[-1]["name"]
