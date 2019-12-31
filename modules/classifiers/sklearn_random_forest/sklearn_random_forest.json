@@ -1,0 +1,41 @@
+{
+  "params": {
+    "method": "DOCKEX_REQUIRED",
+    "kwargs": {
+      "n_estimators": 100,
+      "criterion": "gini",
+      "max_depth": null,
+      "min_samples_split": 2,
+      "min_samples_leaf": 1,
+      "min_weight_fraction_leaf": 0.0,
+      "max_features": "auto",
+      "max_leaf_nodes": null,
+      "min_impurity_decrease": 0.0,
+      "min_impurity_split": null,
+      "bootstrap": true,
+      "oob_score": false,
+      "n_jobs": null,
+      "random_state": null,
+      "verbose": 0,
+      "warm_start": false,
+      "class_weight": null
+    },
+    "random_seed": 1337,
+    "save_model": false
+},
+  "input_pathnames": {
+    "X_train_npy": null,
+    "y_train_npy": null,
+    "X_valid_npy": null,
+    "y_valid_npy": null,
+    "X_test_npy": null,
+    "y_test_npy": null,
+    "model_joblib": null
+  },
+  "output_pathnames": {
+    "predict_train_npy": "_predict_train.npy",
+    "predict_valid_npy": "_predict_valid.npy",
+    "predict_test_npy": "_predict_test.npy",
+    "model_joblib": "_model.joblib"
+  }
+}
