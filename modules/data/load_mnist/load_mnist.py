@@ -1,10 +1,10 @@
 import sys
 import numpy as np
-import joblib
 from sklearn.datasets import fetch_openml
 from sklearn.utils import check_random_state
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn import preprocessing
 
 from base_dockex.BaseDockex import BaseDockex
 
@@ -17,20 +17,24 @@ class LoadMNIST(BaseDockex):
         self.valid_decimal = self.params["valid_decimal"]
         self.test_decimal = self.params["test_decimal"]
         self.num_samples = self.params["num_samples"]
-        self.standardize = self.params["standardize"]
+        self.standardize_normalize = self.params["standardize_normalize"]
         self.random_seed = self.params["random_seed"]
 
-        self.random_state = None
-        self.X = None
-        self.y = None
+        self.img_rows = 28
+        self.img_cols = 28
 
-        self.X_train = None
-        self.y_train = None
-        self.X_valid = None
-        self.y_valid = None
-        self.X_test = None
-        self.y_test = None
-        self.transformer = None
+        self.random_state = None
+        self.X_flat = None
+        self.y_str = None
+
+        self.X_flat_train = None
+        self.y_str_train = None
+
+        self.X_flat_valid = None
+        self.y_str_valid = None
+
+        self.X_flat_test = None
+        self.y_str_test = None
 
     def set_random_seed(self):
         print("Setting random seed")
@@ -38,56 +42,77 @@ class LoadMNIST(BaseDockex):
 
     def get_data(self):
         print("Getting data")
-        self.X, self.y = fetch_openml("mnist_784", version=1, return_X_y=True)
-        self.X = self.X.reshape((self.X.shape[0], -1))
+        self.X_flat, self.y_str = fetch_openml("mnist_784", version=1, return_X_y=True)
+
+        self.X_flat = self.X_flat.astype('float32')
 
         if self.num_samples is not None:
             print("Trimming dataset to num_samples")
-            self.X = self.X[0 : self.num_samples]
-            self.y = self.y[0 : self.num_samples]
+            self.X_flat = self.X_flat[0:self.num_samples]
+            self.y_str = self.y_str[0:self.num_samples]
 
     def shuffle_data(self):
         print("Shuffling data")
-        permutation = self.random_state.permutation(self.X.shape[0])
-        self.X = self.X[permutation]
-        self.y = self.y[permutation]
+        permutation = self.random_state.permutation(self.X_flat.shape[0])
+        self.X_flat = self.X_flat[permutation]
+        self.y_str = self.y_str[permutation]
 
     def train_valid_test_split(self):
         print("Splitting train / valid / test")
-        num_samples = self.X.shape[0]
+        num_samples = self.X_flat.shape[0]
         train_size = int(np.floor(self.train_decimal * num_samples))
         valid_size = int(np.floor(self.valid_decimal * num_samples))
         test_size = int(np.floor(self.test_decimal * num_samples))
 
-        self.X_train, X_valid_test, self.y_train, y_valid_test = train_test_split(
-            self.X, self.y, train_size=train_size, test_size=(valid_size + test_size)
+        self.X_flat_train, X_flat_valid_test, self.y_str_train, y_str_valid_test = train_test_split(
+            self.X_flat, self.y_str, train_size=train_size, test_size=(valid_size + test_size)
         )
 
-        self.X_valid, self.X_test, self.y_valid, self.y_test = train_test_split(
-            X_valid_test, y_valid_test, train_size=valid_size, test_size=test_size
+        self.X_flat_valid, self.X_flat_test, self.y_str_valid, self.y_str_test = train_test_split(
+            X_flat_valid_test, y_str_valid_test, train_size=valid_size, test_size=test_size
         )
 
     def standardize_features(self):
         print("Standardizing features")
-        self.transformer = StandardScaler()
-        self.X_train = self.transformer.fit_transform(self.X_train)
-        self.X_valid = self.transformer.transform(self.X_valid)
-        self.X_test = self.transformer.transform(self.X_test)
+        transformer = StandardScaler()
+        self.X_flat_train = transformer.fit_transform(self.X_flat_train)
+        self.X_flat_valid = transformer.transform(self.X_flat_valid)
+        self.X_flat_test = transformer.transform(self.X_flat_test)
+        
+    def normalize_features(self):
+        print("Normalizing features")
+        self.X_flat_train /= 255
+        self.X_flat_valid /= 255
+        self.X_flat_test /= 255
 
     def save_outputs(self):
         print("Saving outputs")
-        np.save(self.output_pathnames["X_train_npy"], self.X_train)
-        np.save(self.output_pathnames["y_train_npy"], self.y_train)
-        np.save(self.output_pathnames["X_valid_npy"], self.X_valid)
-        np.save(self.output_pathnames["y_valid_npy"], self.y_valid)
-        np.save(self.output_pathnames["X_test_npy"], self.X_test)
-        np.save(self.output_pathnames["y_test_npy"], self.y_test)
+        np.save(self.output_pathnames["X_flat_train_npy"], self.X_flat_train)
+        np.save(self.output_pathnames["X_flat_valid_npy"], self.X_flat_valid)
+        np.save(self.output_pathnames["X_flat_test_npy"], self.X_flat_test)
+        
+        np.save(self.output_pathnames["X_img_train_npy"], self.X_flat_train.reshape((self.X_flat_train.shape[0], self.img_rows, self.img_cols, 1)))
+        np.save(self.output_pathnames["X_img_valid_npy"], self.X_flat_valid.reshape((self.X_flat_valid.shape[0], self.img_rows, self.img_cols, 1)))
+        np.save(self.output_pathnames["X_img_test_npy"], self.X_flat_test.reshape((self.X_flat_test.shape[0], self.img_rows, self.img_cols, 1)))
+                
+        np.save(self.output_pathnames["y_str_train_npy"], self.y_str_train)
+        np.save(self.output_pathnames["y_str_valid_npy"], self.y_str_valid)
+        np.save(self.output_pathnames["y_str_test_npy"], self.y_str_test)
+        
+        y_int_train = self.y_str_train.astype('int')
+        y_int_valid = self.y_str_valid.astype('int')
+        y_int_test = self.y_str_test.astype('int')
+        
+        np.save(self.output_pathnames["y_int_train_npy"], y_int_train)
+        np.save(self.output_pathnames["y_int_valid_npy"], y_int_valid)
+        np.save(self.output_pathnames["y_int_test_npy"], y_int_test)
 
-        if self.transformer is not None:
-            with open(
-                self.output_pathnames["transform_joblib"], "wb"
-            ) as transform_file:
-                joblib.dump(self.transformer, transform_file)
+        lb = preprocessing.LabelBinarizer()
+        lb.fit(y_int_train)
+        
+        np.save(self.output_pathnames["y_categorical_train_npy"], lb.transform(y_int_train))
+        np.save(self.output_pathnames["y_categorical_valid_npy"], lb.transform(y_int_valid))
+        np.save(self.output_pathnames["y_categorical_test_npy"], lb.transform(y_int_test))
 
     def run(self):
         print("Running")
@@ -100,8 +125,11 @@ class LoadMNIST(BaseDockex):
 
         self.train_valid_test_split()
 
-        if self.standardize:
+        if self.standardize_normalize == "standardize":
             self.standardize_features()
+            
+        elif self.standardize_normalize == "normalize":
+            self.normalize_features()
 
         self.save_outputs()
 

@@ -4,17 +4,25 @@
     "valid_decimal": "DOCKEX_REQUIRED",
     "test_decimal": "DOCKEX_REQUIRED",
     "num_samples": null,
-    "standardize": true,
+    "standardize_normalize": "normalize",
     "random_seed": 1337
 },
   "input_pathnames": {},
   "output_pathnames": {
-    "X_train_npy": "_X_train.npy",
-    "y_train_npy": "_y_train.npy",
-    "X_valid_npy": "_X_valid.npy",
-    "y_valid_npy": "_y_valid.npy",
-    "X_test_npy": "_X_test.npy",
-    "y_test_npy": "_y_test.npy",
-    "transform_joblib": "_transform.joblib"
+    "X_flat_train_npy": "_X_flat_train.npy",
+    "X_flat_valid_npy": "_X_flat_valid.npy",
+    "X_flat_test_npy": "_X_flat_test.npy",
+    "X_img_train_npy": "_X_img_train.npy",
+    "X_img_valid_npy": "_X_img_valid.npy",
+    "X_img_test_npy": "_X_img_test.npy",
+    "y_str_train_npy": "_y_str_train.npy",
+    "y_str_valid_npy": "_y_str_valid.npy",
+    "y_str_test_npy": "_y_str_test.npy",
+    "y_int_train_npy": "_y_int_train.npy",
+    "y_int_valid_npy": "_y_int_valid.npy",
+    "y_int_test_npy": "_y_int_test.npy",
+    "y_categorical_train_npy": "_y_categorical_train.npy",
+    "y_categorical_valid_npy": "_y_categorical_valid.npy",
+    "y_categorical_test_npy": "_y_categorical_test.npy"
   }
 }
