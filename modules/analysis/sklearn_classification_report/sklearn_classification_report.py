@@ -37,6 +37,25 @@ class SklearnClassificationReport(BaseDockex):
             self.input_pathnames["predict_test_npy"], allow_pickle=True
         )
 
+        # if provided as categorical, take argmax
+        if len(self.y_train.shape):
+            self.y_train = np.argmax(self.y_train, axis=1)
+            
+        if len(self.predict_train.shape):
+            self.predict_train = np.argmax(self.predict_train, axis=1)
+
+        if len(self.y_valid.shape):
+            self.y_valid = np.argmax(self.y_valid, axis=1)
+
+        if len(self.predict_valid.shape):
+            self.predict_valid = np.argmax(self.predict_valid, axis=1)
+
+        if len(self.y_test.shape):
+            self.y_test = np.argmax(self.y_test, axis=1)
+
+        if len(self.predict_test.shape):
+            self.predict_test = np.argmax(self.predict_test, axis=1)
+
     def generate_reports(self):
         print("Generating reports")
 
