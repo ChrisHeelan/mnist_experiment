@@ -231,6 +231,8 @@ if __name__ == "__main__":
                             "X_test_npy": mnist_train_valid_test["X_img_test_npy"],
                             "y_test_npy": mnist_train_valid_test["y_categorical_test_npy"],
                         },
+                        cpu_credits=0,
+                        gpu_credits=1,
                         skip_output_pathnames=["model_keras"],
                         save_outputs=True,
                         trial_tag="classifier_predictions"
