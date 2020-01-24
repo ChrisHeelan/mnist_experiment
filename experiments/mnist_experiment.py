@@ -1,5 +1,7 @@
 from dockex.core.experiment.ExperimentManager import ExperimentManager
 
+ENABLE_GPUS = True
+
 NUM_SAMPLES = None
 
 TRAIN_DECIMAL = 0.70
@@ -28,6 +30,12 @@ if __name__ == "__main__":
     manager = ExperimentManager(
         initial_job_num=0, experiment_name_prefix="mnist_experiment"
     )
+
+    if ENABLE_GPUS:
+        cnn_gpu_credits = 1
+
+    else:
+        cnn_gpu_credits = 0
 
     ######################################################################
     # generate train/valid/test MNIST dataset
@@ -218,7 +226,7 @@ if __name__ == "__main__":
                             "y_test_npy": mnist_train_valid_test["y_categorical_test_npy"],
                         },
                         cpu_credits=0,
-                        gpu_credits=1,
+                        gpu_credits=cnn_gpu_credits,
                         skip_output_pathnames=["model_keras"],
                         save_outputs=True,
                         trial_tag="classifier_predictions"
