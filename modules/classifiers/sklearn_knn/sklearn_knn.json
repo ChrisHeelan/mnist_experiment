@@ -1,0 +1,32 @@
+{
+  "params": {
+    "method": "DOCKEX_REQUIRED",
+    "kwargs": {
+      "n_neighbors": 5,
+      "weights": "uniform",
+      "algorithm": "auto",
+      "leaf_size": 30,
+      "p": 2,
+      "metric": "minkowski",
+      "metric_params": null,
+      "n_jobs": null
+    },
+    "random_seed": 1337,
+    "save_model": false
+},
+  "input_pathnames": {
+    "X_train_npy": null,
+    "y_train_npy": null,
+    "X_valid_npy": null,
+    "y_valid_npy": null,
+    "X_test_npy": null,
+    "y_test_npy": null,
+    "model_joblib": null
+  },
+  "output_pathnames": {
+    "predict_train_npy": "_predict_train.npy",
+    "predict_valid_npy": "_predict_valid.npy",
+    "predict_test_npy": "_predict_test.npy",
+    "model_joblib": "_model.joblib"
+  }
+}
