@@ -1,26 +1,26 @@
 from dockex.core.experiment.ExperimentManager import ExperimentManager
 
-ENABLE_GPUS = True
+ENABLE_GPUS = False
 
-NUM_SAMPLES = None
+NUM_SAMPLES = 1000
 
 TRAIN_DECIMAL = 0.70
 VALID_DECIMAL = 0.15
 TEST_DECIMAL = 0.15
 
-STANDARDIZE_NORMALIZE_LIST = ['standardize', 'normalize', False]
+STANDARDIZE_NORMALIZE_LIST = ["normalize"]
 
-LOGISTIC_REGRESSION_PENALTY_LIST = ["l1", "l2", "none"]
-LOGISTIC_REGRESSION_C_LIST = [1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0]
+LOGISTIC_REGRESSION_PENALTY_LIST = ["l2"]
+LOGISTIC_REGRESSION_C_LIST = [0.1, 1.0, 10.0]
 
-KNN_N_NEIGHBORS_LIST = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
-KNN_P_LIST = [1, 2, 3]
+KNN_N_NEIGHBORS_LIST = [4, 8, 16]
+KNN_P_LIST = [1, 2]
 
-RF_N_ESTIMATORS_LIST = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
+RF_N_ESTIMATORS_LIST = [16, 32, 64]
 
-CNN_FIRST_CNN_UNITS_LIST = [32, 64]
-CNN_SECOND_CNN_UNITS_LIST = [64, 128]
-CNN_DENSE_UNITS_LIST = [128, 256]
+CNN_FIRST_CNN_UNITS_LIST = [16]
+CNN_SECOND_CNN_UNITS_LIST = [32]
+CNN_DENSE_UNITS_LIST = [64]
 
 RANDOM_SEED = 1337
 
@@ -49,7 +49,7 @@ if __name__ == "__main__":
                 "valid_decimal": VALID_DECIMAL,
                 "test_decimal": TEST_DECIMAL,
                 "num_samples": NUM_SAMPLES,
-                "standardize": standardize_normalize,
+                "standardize_normalize": standardize_normalize,
             },
             save_outputs=True,
             trial_tag="mnist_train_valid_test"
@@ -225,7 +225,6 @@ if __name__ == "__main__":
                             "X_test_npy": mnist_train_valid_test["X_img_test_npy"],
                             "y_test_npy": mnist_train_valid_test["y_categorical_test_npy"],
                         },
-                        cpu_credits=0,
                         gpu_credits=cnn_gpu_credits,
                         skip_output_pathnames=["model_keras"],
                         save_outputs=True,
